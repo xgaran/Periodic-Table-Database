@@ -29,7 +29,13 @@ else
     else
         # get elements data
         ELEMENTS_DATA=$($PSQL "SELECT atomic_number, symbol, name FROM elements WHERE atomic_number = $ATOMIC_NUMBER")
-        echo $ELEMENTS_DATA
+        # parse elements data
+        #if [[ ! -z $ELEMENTS_DATA ]]
+        #then
+            SYMBOL="$(echo "$ELEMENTS_DATA" | cut -d'|' -f2)"
+            NAME="$(echo "$ELEMENTS_DATA" | cut -d'|' -f3)"
+            echo "$ATOMIC_NUMBER $SYMBOL $NAME"
+        #fi
         # get properties data
         PROPERTIES_DATA=$($PSQL "SELECT atomic_number, atomic_mass, melting_point_celsius, boiling_point_celsius, type_id FROM properties WHERE atomic_number = $ATOMIC_NUMBER")
         echo $PROPERTIES_DATA
