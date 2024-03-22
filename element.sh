@@ -38,9 +38,12 @@ else
         #fi
         # get properties data
         PROPERTIES_DATA=$($PSQL "SELECT atomic_number, atomic_mass, melting_point_celsius, boiling_point_celsius, type_id FROM properties WHERE atomic_number = $ATOMIC_NUMBER")
-        echo $PROPERTIES_DATA
+        ATOMIC_MASS="$(echo "$PROPERTIES_DATA" | cut -d'|' -f2)"
+        MELTING_POINT_CELSIUS="$(echo "$PROPERTIES_DATA" | cut -d'|' -f3)"
+        BOILING_POINT_CELSIUS="$(echo "$PROPERTIES_DATA" | cut -d'|' -f4)"
+        TYPE_ID="$(echo "$PROPERTIES_DATA" | cut -d'|' -f5)"
+        echo "$ATOMIC_NUMBER $ATOMIC_MASS $MELTING_POINT_CELSIUS $BOILING_POINT_CELSIUS $TYPE_ID"
         # get types data
-        TYPE_ID=1
         TYPES_DATA=$($PSQL "SELECT type_id, type FROM types WHERE type_id = $TYPE_ID")
         echo $TYPES_DATA
         # display properties
