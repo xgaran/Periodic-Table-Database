@@ -10,6 +10,13 @@ else
 
     if [[ -z $ATOMIC_NUMBER ]]
     then
+    # search by symbol
+    echo "SELECT atomic_number FROM elements WHERE atomic_number = $1"
+    ATOMIC_NUMBER=$($PSQL "SELECT atomic_number FROM elements WHERE symbol = '$1'")
+    fi
+    
+    if [[ -z $ATOMIC_NUMBER ]]
+    then
     # Not found
         echo "I could not find that element in the database."
     else
